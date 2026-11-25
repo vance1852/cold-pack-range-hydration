@@ -1,0 +1,95 @@
+{
+  "policy": {
+    "cold_window_ms": 150,
+    "cold_bytes": 24,
+    "parallel": 2,
+    "hot_bytes": 8,
+    "indexes": {
+      "map/v3": {
+        "pack": "P3",
+        "segments": [
+          [
+            "r",
+            0,
+            8,
+            "a45d726b3da4fa08237b0620f28915e0dc3717685514e52b518ea7a75abd8c9e"
+          ],
+          [
+            "s",
+            8,
+            8,
+            "e9df79a1db7a34e740cdb9dcca8a092845a873f2aa3129a3966946b5ab4ed3b7"
+          ]
+        ]
+      }
+    }
+  },
+  "objects": {
+    "r.bin": {
+      "bytes": 8,
+      "sha256": "a45d726b3da4fa08237b0620f28915e0dc3717685514e52b518ea7a75abd8c9e"
+    },
+    "s.bin": {
+      "bytes": 8,
+      "sha256": "e9df79a1db7a34e740cdb9dcca8a092845a873f2aa3129a3966946b5ab4ed3b7"
+    }
+  },
+  "events": [
+    {
+      "at": 0,
+      "action": "read",
+      "request": "one",
+      "version": "map/v3",
+      "offset": 0,
+      "length": 8,
+      "wait_ms": 88,
+      "priority": "field"
+    },
+    {
+      "at": 18,
+      "action": "read",
+      "request": "two",
+      "version": "map/v3",
+      "offset": 8,
+      "length": 8,
+      "wait_ms": 65,
+      "priority": "normal"
+    },
+    {
+      "at": 64,
+      "action": "close",
+      "request": "one"
+    },
+    {
+      "at": 68,
+      "action": "continue",
+      "request": "two"
+    }
+  ],
+  "packets": [
+    {
+      "method": "GET",
+      "path": "/media/P3/read/r",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "r.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    },
+    {
+      "method": "GET",
+      "path": "/media/P3/read/s",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "s.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    }
+  ]
+}

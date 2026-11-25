@@ -1,0 +1,195 @@
+{
+  "policy": {
+    "cold_window_ms": 200,
+    "cold_bytes": 32,
+    "parallel": 2,
+    "hot_bytes": 16,
+    "indexes": {
+      "map/v1": {
+        "pack": "P1",
+        "segments": [
+          [
+            "a",
+            0,
+            8,
+            "d8c43f03f6ffb3af98a65c2f8e8810d578d18a07d1e79b05a7f4fdb8165fb828"
+          ],
+          [
+            "b",
+            8,
+            8,
+            "9eb3d7215f5f982a4ccad59a68984f0e03b320b5769d89d575490ce4100fcee4"
+          ],
+          [
+            "c",
+            16,
+            8,
+            "8091b566af7ba1805481f92254ea4f6ea8fc78c81e155d4271733073a80bd5c9"
+          ]
+        ]
+      },
+      "map/v2": {
+        "pack": "P2",
+        "segments": [
+          [
+            "b",
+            8,
+            8,
+            "f48a8471f271e1494dc838d88aa356576457a6665cce8c761be0a4edb0196e5f"
+          ]
+        ]
+      }
+    }
+  },
+  "objects": {
+    "a.bin": {
+      "bytes": 8,
+      "sha256": "d8c43f03f6ffb3af98a65c2f8e8810d578d18a07d1e79b05a7f4fdb8165fb828"
+    },
+    "b.bin": {
+      "bytes": 8,
+      "sha256": "9eb3d7215f5f982a4ccad59a68984f0e03b320b5769d89d575490ce4100fcee4"
+    },
+    "c.bin": {
+      "bytes": 8,
+      "sha256": "8091b566af7ba1805481f92254ea4f6ea8fc78c81e155d4271733073a80bd5c9"
+    },
+    "bad.bin": {
+      "bytes": 8,
+      "sha256": "77051ff87c7b3574f6c96dbe770772df5be6981ae3f16492f4f591f722ce178a"
+    },
+    "b2.bin": {
+      "bytes": 8,
+      "sha256": "f48a8471f271e1494dc838d88aa356576457a6665cce8c761be0a4edb0196e5f"
+    }
+  },
+  "events": [
+    {
+      "at": 0,
+      "action": "read",
+      "request": "bulk",
+      "version": "map/v1",
+      "offset": 0,
+      "length": 24,
+      "wait_ms": 120,
+      "priority": "normal"
+    },
+    {
+      "at": 10,
+      "action": "read",
+      "request": "crew",
+      "version": "map/v1",
+      "offset": 10,
+      "length": 4,
+      "wait_ms": 240,
+      "priority": "field"
+    },
+    {
+      "at": 35,
+      "action": "cancel",
+      "request": "bulk"
+    },
+    {
+      "at": 45,
+      "action": "index",
+      "current": "map/v2"
+    },
+    {
+      "at": 65,
+      "action": "resume",
+      "request": "crew"
+    },
+    {
+      "at": 100,
+      "action": "read",
+      "request": "late",
+      "version": "map/v2",
+      "offset": 8,
+      "length": 8,
+      "wait_ms": 80,
+      "priority": "normal"
+    },
+    {
+      "at": 130,
+      "action": "restart",
+      "node": "reader"
+    },
+    {
+      "at": 135,
+      "action": "continue",
+      "request": "crew"
+    }
+  ],
+  "packets": [
+    {
+      "method": "POST",
+      "path": "/media/P1/read/a",
+      "status": 202,
+      "reply": {
+        "state": "accepted"
+      },
+      "body": null,
+      "drop": true,
+      "lag_ms": 0
+    },
+    {
+      "method": "POST",
+      "path": "/media/P1/read/b",
+      "status": 202,
+      "reply": {
+        "state": "accepted"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    },
+    {
+      "method": "GET",
+      "path": "/media/P1/read/a",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "a.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    },
+    {
+      "method": "GET",
+      "path": "/media/P1/read/b",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "b.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 85
+    },
+    {
+      "method": "GET",
+      "path": "/media/P1/read/c",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "bad.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    },
+    {
+      "method": "GET",
+      "path": "/media/P2/read/b",
+      "status": 200,
+      "reply": {
+        "state": "ready",
+        "file": "b2.bin"
+      },
+      "body": null,
+      "drop": false,
+      "lag_ms": 0
+    }
+  ]
+}
